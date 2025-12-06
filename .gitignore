@@ -1,5 +1,8 @@
 # Codespace specific ignores
 
+# Project progress and tracking files (local only)
+.progress/
+
 # Logs
 logs/
 *.log
