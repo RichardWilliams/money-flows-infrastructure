@@ -1,0 +1,173 @@
+{
+  "folders": [
+    {
+      "name": "💰 Money Flows - Backend API",
+      "path": "../../money-flows/backend"
+    },
+    {
+      "name": "🎨 Money Flows - Frontend UI",
+      "path": "../../money-flows/frontend"
+    },
+    {
+      "name": "🏗️ Codespace (Infrastructure)",
+      "path": ".."
+    }
+  ],
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.cwd": "${workspaceFolder:💰 Money Flows - Backend API}",
+    "files.exclude": {
+      "**/bin": true,
+      "**/obj": true,
+      "**/node_modules": true,
+      "**/.next": true
+    },
+    "search.exclude": {
+      "**/bin": true,
+      "**/obj": true,
+      "**/node_modules": true,
+      "**/.next": true
+    }
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "🚀 Backend API (.NET 9)",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build-backend",
+        "program": "${workspaceFolder:💰 Money Flows - Backend API}/src/Api/bin/Debug/net9.0/PropertyManagement.Api.dll",
+        "args": [],
+        "cwd": "${workspaceFolder:💰 Money Flows - Backend API}/src/Api",
+        "stopAtEntry": false,
+        "serverReadyAction": {
+          "action": "openExternally",
+          "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+          "uriFormat": "%s/swagger"
+        },
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "ConnectionStrings__Database": "Host=postgres;Database=property_mgmt;Username=postgres;Password=postgres"
+        },
+        "sourceFileMap": {
+          "/workspace": "${workspaceFolder:💰 Money Flows - Backend API}"
+        }
+      },
+      {
+        "name": "🎨 Frontend (Vite + React)",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceFolder:🎨 Money Flows - Frontend UI}",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["run", "dev"],
+        "serverReadyAction": {
+          "pattern": "Local:\\s+(https?://\\S+)",
+          "uriFormat": "%s",
+          "action": "openExternally"
+        },
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen"
+      },
+      {
+        "name": "🧪 Backend Tests",
+        "type": "coreclr",
+        "request": "launch",
+        "program": "dotnet",
+        "args": ["test", "--logger", "console;verbosity=detailed"],
+        "cwd": "${workspaceFolder:💰 Money Flows - Backend API}",
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      }
+    ],
+    "compounds": [
+      {
+        "name": "🚀 Money Flows (Full Stack)",
+        "configurations": [
+          "🚀 Backend API (.NET 10)",
+          "🎨 Frontend (Vite + React)"
+        ],
+        "stopAll": true,
+        "presentation": {
+          "hidden": false,
+          "group": "Full Stack",
+          "order": 1
+        }
+      }
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "build-backend",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build",
+          "${workspaceFolder:💰 Money Flows - Backend API}/PropertyManagement.sln",
+          "/property:GenerateFullPaths=true",
+          "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      },
+      {
+        "label": "watch-backend",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "watch",
+          "run",
+          "--project",
+          "${workspaceFolder:💰 Money Flows - Backend API}/src/Api"
+        ],
+        "problemMatcher": "$msCompile",
+        "isBackground": true
+      },
+      {
+        "label": "test-backend",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "test",
+          "${workspaceFolder:💰 Money Flows - Backend API}/PropertyManagement.sln"
+        ],
+        "problemMatcher": "$msCompile",
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        }
+      },
+      {
+        "label": "Start Infrastructure Services",
+        "type": "shell",
+        "command": "docker-compose -f ${workspaceFolder:🏗️ Codespace (Infrastructure)}/.devcontainer/docker-compose.yml up -d postgres redis minio",
+        "problemMatcher": []
+      },
+      {
+        "label": "Stop Infrastructure Services",
+        "type": "shell",
+        "command": "docker-compose -f ${workspaceFolder:🏗️ Codespace (Infrastructure)}/.devcontainer/docker-compose.yml down",
+        "problemMatcher": []
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-dotnettools.csharp",
+      "ms-dotnettools.csdevkit",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "bradlc.vscode-tailwindcss",
+      "ms-azuretools.vscode-docker",
+      "github.copilot",
+      "eamodio.gitlens",
+      "mtxr.sqltools",
+      "mtxr.sqltools-driver-pg"
+    ]
+  }
+}

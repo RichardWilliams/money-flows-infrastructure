@@ -1,0 +1,22 @@
+# Codespace specific ignores
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Don't ignore workspace files
+!workspaces/*.code-workspace
