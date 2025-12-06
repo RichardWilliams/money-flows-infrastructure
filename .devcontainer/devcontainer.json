@@ -1,0 +1,152 @@
+{
+  "name": "AI Codespace - Master Development Environment",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // .NET Development
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+
+        // Frontend Development
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+
+        // Docker & Infrastructure
+        "ms-azuretools.vscode-docker",
+        "ms-vscode-remote.remote-containers",
+
+        // Git & GitHub
+        "github.vscode-pull-request-github",
+        "eamodio.gitlens",
+
+        // Productivity
+        "github.copilot",
+        "editorconfig.editorconfig",
+        "humao.rest-client",
+
+        // Database - PostgreSQL
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "ckolkman.vscode-postgres",
+
+        // Database - Redis
+        "Dunn.redis",
+        "p1c2u.docker-compose",
+
+        // Web Server - Nginx
+        "raynigon.nginx-formatter",
+        "william-voron.vscode-nginx",
+
+        // YAML & Config Files
+        "redhat.vscode-yaml",
+        "DotJoshJohnson.xml"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[csharp]": {
+          "editor.defaultFormatter": "ms-dotnettools.csharp"
+        },
+        "[nginx]": {
+          "editor.defaultFormatter": "raynigon.nginx-formatter"
+        },
+        "omnisharp.enableRoslynAnalyzers": true,
+        "omnisharp.enableEditorConfigSupport": true,
+
+        // SQLTools Configuration
+        "sqltools.connections": [
+          {
+            "name": "PostgreSQL - Money Flows",
+            "driver": "PostgreSQL",
+            "server": "postgres",
+            "port": 5432,
+            "database": "property_mgmt",
+            "username": "postgres",
+            "password": "postgres",
+            "previewLimit": 50
+          },
+          {
+            "name": "PostgreSQL - Main DB",
+            "driver": "PostgreSQL",
+            "server": "postgres",
+            "port": 5432,
+            "database": "postgres",
+            "username": "postgres",
+            "password": "postgres",
+            "previewLimit": 50
+          }
+        ],
+
+        // Redis Configuration
+        "redis.host": "redis",
+        "redis.port": 6379,
+        "redis.db": 0,
+
+        // Docker Extension
+        "docker.host": "unix:///var/run/docker.sock"
+      }
+    }
+  },
+
+  "forwardPorts": [
+    5000,   // Backend API
+    5173,   // Frontend (Vite)
+    5432,   // PostgreSQL
+    6379,   // Redis
+    9000,   // MinIO API
+    9001    // MinIO Console
+  ],
+
+  "portsAttributes": {
+    "5000": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "5173": {
+      "label": "Frontend",
+      "onAutoForward": "openBrowser"
+    },
+    "5432": {
+      "label": "PostgreSQL"
+    },
+    "6379": {
+      "label": "Redis"
+    },
+    "9000": {
+      "label": "MinIO API"
+    },
+    "9001": {
+      "label": "MinIO Console"
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  "remoteUser": "vscode",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+
+  "mounts": [
+    // Mount SSH keys for GitHub authentication
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,readonly,type=bind",
+    // Mount Git config
+    "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,readonly,type=bind"
+  ]
+}
