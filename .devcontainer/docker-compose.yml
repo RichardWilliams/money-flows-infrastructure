@@ -20,7 +20,7 @@ services:
     networks:
       - devnet
     ports:
-      - "5000:8080"  # Property Management API
+      - "5001:8080"  # Property Management API
 
   # PostgreSQL - Shared database for all projects
   postgres:

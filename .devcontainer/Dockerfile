@@ -22,6 +22,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y gh \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+# Install Claude Code CLI
+RUN curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/main/install.sh | sh
+
 # Add dotnet tools to PATH first
 ENV PATH="${PATH}:/root/.dotnet/tools:/home/vscode/.dotnet/tools"
 
