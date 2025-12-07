@@ -2,9 +2,11 @@ FROM mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm
 
 # .NET 8 SDK is already installed in this base image (more stable on ARM64)
 
-# Install additional tools including GitHub CLI
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+# Install Node.js 20 for Claude Code and other tools
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
+    nodejs \
     postgresql-client \
     redis-tools \
     curl \
@@ -22,8 +24,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y gh \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# Install Claude Code CLI
-RUN curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/main/install.sh | sh
+# Install Claude Code CLI via NPM (recommended for Docker)
+RUN npm install -g @anthropic-ai/claude-code
 
 # Add dotnet tools to PATH first
 ENV PATH="${PATH}:/root/.dotnet/tools:/home/vscode/.dotnet/tools"
