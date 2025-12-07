@@ -1,6 +1,6 @@
-FROM mcr.microsoft.com/devcontainers/dotnet:1-9.0-bookworm
+FROM mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm
 
-# .NET 9 SDK is already installed in this base image
+# .NET 8 SDK is already installed in this base image (more stable on ARM64)
 
 # Install additional tools including GitHub CLI
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
